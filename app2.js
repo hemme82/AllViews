@@ -4,8 +4,9 @@ function filterData(data) {
     return data.filter(d => {
         return(
             
-            d.final_position 
-
+             d.title
+            // d.eversion >= 1901
+            //
             //d.eversion //>= 1900
             //d.title == "Campus Learning"
             // d.title != "Campus Learning"
@@ -58,13 +59,14 @@ function ready(videoViews) {
     let durationMax = 120;
 
     //Videos under 1 minute/////////////////////////////////////
+    
     let durationSum1 = viewsFiltered
         .filter (d => d.duration < durationMin)
         .reduce((total, d) => total + d.duration, 0);
 
     let avgPertCompletion = viewsFiltered
         .filter (d => d.duration < durationMin)
-        .reduce((total, d) => total + d.final_position, 0) / durationSum1;
+        .reduce((total, d) => total + d.final_position, 0) / durationSum1 * 100;
     
     completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
     
@@ -80,90 +82,90 @@ function ready(videoViews) {
     
     completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
     
-    // durationMin += 60;
-    // durationMax += 60;
+    durationMin += 60;
+    durationMax += 60;
     
-    // //videos between 2 and 3 minutes/////////////////////////////////////
-    // durationSum1 = viewsFiltered
-    //     .filter (d => d.duration > durationMin && d.duration < durationMax)
-    //     .reduce((total, d) => total + d.duration, 0);
+    //videos between 2 and 3 minutes/////////////////////////////////////
+    durationSum1 = viewsFiltered
+        .filter (d => d.duration > durationMin && d.duration < durationMax)
+        .reduce((total, d) => total + d.duration, 0);
 
-    // avgPertCompletion = viewsFiltered
-    //     .filter (d => d.duration > durationMin && d.duration < durationMax)
-    //     .reduce((total, d) => total + d.final_position, 0) / durationSum1;
+    avgPertCompletion = viewsFiltered
+        .filter (d => d.duration > durationMin && d.duration < durationMax)
+        .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    // completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
 
-    // durationMin += 60;
-    // durationMax += 60;
+    durationMin += 60;
+    durationMax += 60;
 
-    // //videos between 3 and 4 minutes/////////////////////////////////////
-    // durationSum1 = viewsFiltered
-    //     .filter (d => d.duration > durationMin && d.duration < durationMax)
-    //     .reduce((total, d) => total + d.duration, 0);
+    //videos between 3 and 4 minutes/////////////////////////////////////
+    durationSum1 = viewsFiltered
+        .filter (d => d.duration > durationMin && d.duration < durationMax)
+        .reduce((total, d) => total + d.duration, 0);
 
-    // avgPertCompletion = viewsFiltered
-    //     .filter (d => d.duration > durationMin && d.duration < durationMax)
-    //     .reduce((total, d) => total + d.final_position, 0) / durationSum1;
+    avgPertCompletion = viewsFiltered
+        .filter (d => d.duration > durationMin && d.duration < durationMax)
+        .reduce((total, d) => total + d.final_position, 0) / durationSum1;
 
-    // completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
 
-    // durationMin += 60;
-    // durationMax += 60;
+    durationMin += 60;
+    durationMax += 60;
 
-    // //videos between 4 and 5 minutes/////////////////////////////////////
-    // durationSum1 = viewsFiltered
-    //     .filter (d => d.duration < durationMin)
-    //     .reduce((total, d) => total + d.duration, 0);
+    //videos between 4 and 5 minutes/////////////////////////////////////
+    durationSum1 = viewsFiltered
+        .filter (d => d.duration < durationMin)
+        .reduce((total, d) => total + d.duration, 0);
 
-    // avgPertCompletion = viewsFiltered
-    //     .filter (d => d.duration < durationMin)
-    //     .reduce((total, d) => total + d.final_position, 0) / durationSum1;
+    avgPertCompletion = viewsFiltered
+        .filter (d => d.duration < durationMin)
+        .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    // completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
 
-    // durationMin += 60;
-    // durationMax += 60;
+    durationMin += 60;
+    durationMax += 60;
 
-    // //videos between 5 and 6 minutes/////////////////////////////////////
-    // durationSum1 = viewsFiltered
-    //     .filter (d => d.duration < durationMin)
-    //     .reduce((total, d) => total + d.duration, 0);
+    //videos between 5 and 6 minutes/////////////////////////////////////
+    durationSum1 = viewsFiltered
+        .filter (d => d.duration < durationMin)
+        .reduce((total, d) => total + d.duration, 0);
 
-    // avgPertCompletion = viewsFiltered
-    //     .filter (d => d.duration < durationMin)
-    //     .reduce((total, d) => total + d.final_position, 0) / durationSum1;
+    avgPertCompletion = viewsFiltered
+        .filter (d => d.duration < durationMin)
+        .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    // completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
 
 
-    // durationMin += 60;
-    // durationMax += 60;
+    durationMin += 60;
+    durationMax += 60;
     
-    // //videos between 6 and 7 minutes/////////////////////////////////////
-    // durationSum1 = viewsFiltered
-    //     .filter (d => d.duration < durationMin)
-    //     .reduce((total, d) => total + d.duration, 0);
+    //videos between 6 and 7 minutes/////////////////////////////////////
+    durationSum1 = viewsFiltered
+        .filter (d => d.duration < durationMin)
+        .reduce((total, d) => total + d.duration, 0);
 
-    // avgPertCompletion = viewsFiltered
-    //     .filter (d => d.duration < durationMin)
-    //     .reduce((total, d) => total + d.final_position, 0) / durationSum1;
+    avgPertCompletion = viewsFiltered
+        .filter (d => d.duration < durationMin)
+        .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    // completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
 
-    // durationMin += 60;
-    // durationMax += 60;
+    durationMin += 60;
+    durationMax += 60;
 
-    // //videos between 7 and 8 minutes/////////////////////////////////////
-    // durationSum1 = viewsFiltered
-    //     .filter (d => d.duration < durationMin)
-    //     .reduce((total, d) => total + d.duration, 0);
+    //videos between 7 and 8 minutes/////////////////////////////////////
+    durationSum1 = viewsFiltered
+        .filter (d => d.duration < durationMin)
+        .reduce((total, d) => total + d.duration, 0);
 
-    // avgPertCompletion = viewsFiltered
-    //     .filter (d => d.duration < durationMin)
-    //     .reduce((total, d) => total + d.final_position, 0) / durationSum1;
+    avgPertCompletion = viewsFiltered
+        .filter (d => d.duration < durationMin)
+        .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    // completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
     
             
         // const finalPositionSum2 = viewsFiltered
@@ -173,7 +175,7 @@ function ready(videoViews) {
         //     return total + d.duration;    
         // }, 0);
             
-        //const durationSum2 = viewsFiltered.reduce((total, d) => total + d.duration, 0);
+        // const durationSum2 = viewsFiltered.reduce((total, d) => total + d.duration, 0);
 
         //console.log(durationSum1);
         // console.log(durationSum);
@@ -182,8 +184,77 @@ function ready(videoViews) {
         console.log("completionPerentageByDuration: " + completionPerentageByDuration);
         console.log(completionPerentageByDuration.length);
         // debugger;
-    
 
+    // Margin Convention.
+    const margin = { top: 40, right: 40, bottom: 40, left: 40 };
+    const width = 500 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
+
+    // Scales.
+    // const xScale = d3.scaleLinear()
+    //     .domain([0, Math.max(completionPerentageByDuration)])
+    //     .range([0, width])
+
+    const yScale = d3.scaleLinear()
+        .domain([0, 100])   
+        .range([height, 0]);
+        
+
+    const makeYLines = () => d3.axisLeft()
+        .scale(yScale);
+
+    const xScale = d3.scaleBand()
+        .domain([0, completionPerentageByDuration.length])  
+        .range([0, width])
+        .padding(0.8);
+    // chart.append('g')
+    //     .call(d3.axisLeft(yScale));
+
+    // Draw base.
+    const chart = d3.select(".bar-chart-container")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+            
+        chart.append("g")
+            .call(d3.axisLeft(yScale));
+
+        chart.append('g')
+            .attr('transform', `translate(0, ${height})`)
+            .call(d3.axisBottom(xScale));
+    
+    chart.append("g")
+        //.attr("class", "grid")
+        .call(makeYLines()
+            .tickSize(-width, 0, 0)
+            .tickFormat('')
+        );
+    
+    const barGroups = chart.selectAll()
+        .data(completionPerentageByDuration)
+        .enter()
+        .append("g")
+
+    barGroups
+        .append("rect")
+        .style("fill", "steelblue")
+        .attr("class", "bar")
+        .style("border", "solid black 1px")
+        .attr("width", xScale.bandwidth())
+        .attr("height", function(d){
+            return yScale(d);
+        })
+        .attr("x", function (d,i) {
+            return i * 35 + 5;
+        })
+        .attr("y", function(d) {
+            return (d);
+        })
+        // .attr("x", function(d, i) { return xScale(completionPerentageByDuration[i]); })
+        ;
+    const durationNames = ["1min", "2min", "3min", "4min", "5min", "6min", "7min", "8min"];
 }
 
 const parseVersion = (string) => (string == null) ? undefined : string.replace(/\D/g,'')
