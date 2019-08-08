@@ -4,8 +4,8 @@ function filterData(data) {
     return data.filter(d => {
         return(
             
-             d.title
-            // d.eversion >= 1901
+            //d.title
+            d.eversion <= 1800
             //
             //d.eversion //>= 1900
             //d.title == "Campus Learning"
@@ -41,8 +41,8 @@ function ready(videoViews) {
         return d.duration;
         
     });
-    const avgPercentCompletion = d3.format(".0%")(avgFinalPosition/avgDuration)
-    console.log("Average Completion: " + avgPercentCompletion)
+    const avgVidFinalPosition = d3.format(".0%")(avgFinalPosition/avgDuration)
+    console.log("Average Final Position: " + avgVidFinalPosition)
     console.log(avgFinalPosition / avgDuration);
 
     // const avgCompUnderMin = viewsFiltered.filter(function(d){
@@ -52,23 +52,26 @@ function ready(videoViews) {
     //     }
 
     // });
+    
+        var avgFinalPositionArray = [];
+            
+        let durationMin = 0;
+        let durationMax = 60;
 
-    var completionPerentageByDuration = [];
+        //Videos under 1 minute/////////////////////////////////////
         
-    let durationMin = 60;
-    let durationMax = 120;
+        let durationSum1 = viewsFiltered
+            .filter (d => d.duration > durationMin && d.duration < durationMax)
+            .reduce((total, d) => total + d.duration, 0);
 
-    //Videos under 1 minute/////////////////////////////////////
-    
-    let durationSum1 = viewsFiltered
-        .filter (d => d.duration < durationMin)
-        .reduce((total, d) => total + d.duration, 0);
+        let avgFinalPositionByDuration = viewsFiltered
+            .filter (d => d.duration > durationMin && d.duration < durationMax)
+            .reduce((total, d) => total + d.final_position, 0) / durationSum1;
+        
+        avgFinalPositionArray.push(avgFinalPositionByDuration.toFixed(2));
 
-    let avgPertCompletion = viewsFiltered
-        .filter (d => d.duration < durationMin)
-        .reduce((total, d) => total + d.final_position, 0) / durationSum1 * 100;
-    
-    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+        durationMin += 60;
+        durationMax += 60;
     
     //videos between 1 and 2 minutes/////////////////////////////////////
     
@@ -80,7 +83,7 @@ function ready(videoViews) {
         .filter (d => d.duration > durationMin && d.duration < durationMax)
         .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+        avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
     
     durationMin += 60;
     durationMax += 60;
@@ -94,7 +97,7 @@ function ready(videoViews) {
         .filter (d => d.duration > durationMin && d.duration < durationMax)
         .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+        avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
 
     durationMin += 60;
     durationMax += 60;
@@ -108,7 +111,7 @@ function ready(videoViews) {
         .filter (d => d.duration > durationMin && d.duration < durationMax)
         .reduce((total, d) => total + d.final_position, 0) / durationSum1;
 
-    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+        avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
 
     durationMin += 60;
     durationMax += 60;
@@ -122,7 +125,7 @@ function ready(videoViews) {
         .filter (d => d.duration < durationMin)
         .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+        avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
 
     durationMin += 60;
     durationMax += 60;
@@ -136,7 +139,7 @@ function ready(videoViews) {
         .filter (d => d.duration < durationMin)
         .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+        avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
 
 
     durationMin += 60;
@@ -151,12 +154,12 @@ function ready(videoViews) {
         .filter (d => d.duration < durationMin)
         .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+        avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
 
     durationMin += 60;
     durationMax += 60;
-
-    //videos between 7 and 8 minutes/////////////////////////////////////
+    
+    //videos between 8 and 9 minutes/////////////////////////////////////
     durationSum1 = viewsFiltered
         .filter (d => d.duration < durationMin)
         .reduce((total, d) => total + d.duration, 0);
@@ -165,7 +168,9 @@ function ready(videoViews) {
         .filter (d => d.duration < durationMin)
         .reduce((total, d) => total + d.final_position, 0) / durationSum1;
     
-    completionPerentageByDuration.push(avgPertCompletion.toFixed(2));
+        avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
+
+    
     
             
         // const finalPositionSum2 = viewsFiltered
@@ -181,77 +186,97 @@ function ready(videoViews) {
         // console.log(durationSum);
 
         //console.log(avgPertCompletion);
-        console.log("completionPerentageByDuration: " + completionPerentageByDuration);
-        console.log(completionPerentageByDuration.length);
+        console.log("avgFinalPositionArray: " + avgFinalPositionArray);
+        console.log(avgFinalPositionArray.length);
         // debugger;
 
     // Margin Convention.
     const margin = { top: 40, right: 40, bottom: 40, left: 40 };
-    const width = 500 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const width = 500// - margin.left - margin.right;
+    const height = 500// - margin.top - margin.bottom;
 
     // Scales.
-    // const xScale = d3.scaleLinear()
-    //     .domain([0, Math.max(completionPerentageByDuration)])
-    //     .range([0, width])
+    const xScale = d3.scaleBand()
+        .domain(d3.range(0,avgFinalPositionArray.length))
+        .range([0, width])
+        .padding(0.2);
 
     const yScale = d3.scaleLinear()
-        .domain([0, 100])   
-        .range([height, 0]);
+        .domain([0, d3.max(avgFinalPositionArray)])   
+        .range([0, height]);
+
+    const colors = d3.scaleLinear()
+        .domain([0, avgFinalPositionArray.length])
+        .range(["#90ee90", "#30c230"]);
+
         
 
-    const makeYLines = () => d3.axisLeft()
-        .scale(yScale);
+    // const makeYLines = () => d3.axisLeft()
+    //     .scale(yScale);
 
-    const xScale = d3.scaleBand()
-        .domain([0, completionPerentageByDuration.length])  
-        .range([0, width])
-        .padding(0.8);
+    // const xScale = d3.scaleBand()
+    //     .domain([0, avgFinalPositionArray.length])  
+    //     .range([0, width])
+    //     .padding(0.8);
     // chart.append('g')
     //     .call(d3.axisLeft(yScale));
 
     // Draw base.
     const chart = d3.select(".bar-chart-container")
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+            .attr("width", width)// + margin.left + margin.right)
+            .attr("height", height)// + margin.top + margin.bottom)
+            .style("background", "#f4f4f4")
+        .selectAll("rect")
+            .data(avgFinalPositionArray)
+            .enter()
+                .append("rect")
+                .style("fill", "lightgreen")
+
+                .attr("width", xScale.bandwidth())
+                .attr("height", (d) => yScale(d))
+
+                .attr("x", (d,i) => xScale(i))
+                .attr("y", (d) => height - yScale(d));
+           
             
-        chart.append("g")
-            .call(d3.axisLeft(yScale));
+    //     .append("g")
+    //     .attr("transform", `translate(${margin.left}, ${margin.top})`);
+            
+        // chart.append("g")
+        //     .call(d3.axisLeft(yScale));
 
-        chart.append('g')
-            .attr('transform', `translate(0, ${height})`)
-            .call(d3.axisBottom(xScale));
+    //     chart.append('g')
+    //         .attr('transform', `translate(0, ${height})`)
+    //         .call(d3.axisBottom(xScale));
     
-    chart.append("g")
-        //.attr("class", "grid")
-        .call(makeYLines()
-            .tickSize(-width, 0, 0)
-            .tickFormat('')
-        );
+    // chart.append("g")
+    //     //.attr("class", "grid")
+    //     .call(makeYLines()
+    //         .tickSize(-width, 0, 0)
+    //         .tickFormat('')
+    //     );
     
-    const barGroups = chart.selectAll()
-        .data(completionPerentageByDuration)
-        .enter()
-        .append("g")
+    // const barGroups = chart.selectAll()
+    //     .data(avgFinalPositionArray)
+    //     .enter()
+    //     .append("g")
 
-    barGroups
-        .append("rect")
-        .style("fill", "steelblue")
-        .attr("class", "bar")
-        .style("border", "solid black 1px")
-        .attr("width", xScale.bandwidth())
-        .attr("height", function(d){
-            return yScale(d);
-        })
-        .attr("x", function (d,i) {
-            return i * 35 + 5;
-        })
-        .attr("y", function(d) {
-            return (d);
-        })
+    // barGroups
+    //     .append("rect")
+    //     .style("fill", "steelblue")
+    //     .attr("class", "bar")
+    //     .style("border", "solid black 1px")
+    //     .attr("width", xScale.bandwidth())
+    //     .attr("height", function(d){
+    //         return yScale(d);
+    //     })
+    //     .attr("x", function (d,i) {
+    //         return i * 35 + 5;
+    //     })
+    //     .attr("y", function(d) {
+    //         return (d);
+    //     })
         // .attr("x", function(d, i) { return xScale(completionPerentageByDuration[i]); })
         ;
     const durationNames = ["1min", "2min", "3min", "4min", "5min", "6min", "7min", "8min"];
