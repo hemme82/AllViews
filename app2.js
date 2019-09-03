@@ -3,10 +3,11 @@
 function filterData(data) {
 	return data.filter((d) => {
 		return (
-			 //d.title
-			//d.eversion >= 1800
-			//
-			d.eversion// >= 1900
+			//d.title
+			d.ccms_id.startsWith("FIN.") 
+			 //d.eversion >= 1800
+			//d.oneToTwoMin
+			//d.eversion// >= 1900
 			// d.title == "Campus Learning"
 			// d.title != "Campus Learning"
 		);
@@ -40,13 +41,13 @@ function ready(videoViews) {
 	console.log('Average Final Position: ' + avgVidFinalPosition);
 	console.log(avgFinalPosition / avgDuration);
 
-	// const avgCompUnderMin = viewsFiltered.filter(function(d){
-	//     if(d.duration < 60){
-	//         console.log(d.final_position);
 
-	//     }
-
-	// });
+	const getNum = (val) => {
+		if (isNaN(val)) {
+			return 0;
+		}
+		return val;
+	}
 
 	var avgFinalPositionArray = [];
 
@@ -54,123 +55,27 @@ function ready(videoViews) {
 	let durationMax = 60;
 
 	//Videos under 1 minute/////////////////////////////////////
+	while(durationMax < 660) {
+		const durationSum1 = viewsFiltered
+			.filter((d) => d.duration > durationMin && d.duration < durationMax)
+			.reduce((total, d) => total + d.duration, 0);
 
-	let durationSum1 = viewsFiltered
-		.filter((d) => d.duration > durationMin && d.duration < durationMax)
-		.reduce((total, d) => total + d.duration, 0);
-
-	let avgFinalPositionByDuration =
-		viewsFiltered
+		const avgFinalPositionByDuration = viewsFiltered
 			.filter((d) => d.duration > durationMin && d.duration < durationMax)
 			.reduce((total, d) => total + d.final_position, 0) / durationSum1;
 
-	avgFinalPositionArray.push(avgFinalPositionByDuration.toFixed(2));
+		durationMin += 60;
+		durationMax +=60;
 
-	durationMin += 60;
-	durationMax += 60;
+		const NaNCoversion = getNum(avgFinalPositionByDuration.toFixed(2));
+			console.log("n " + NaNCoversion)
+			avgFinalPositionArray.push(NaNCoversion);
 
-	//videos between 1 and 2 minutes/////////////////////////////////////
+		console.log(avgFinalPositionByDuration)
+	}
+	
 
-	durationSum1 = viewsFiltered
-		.filter((d) => d.duration > durationMin && d.duration < durationMax)
-		.reduce((total, d) => total + d.duration, 0);
-
-	avgPertCompletion =
-		viewsFiltered
-			.filter((d) => d.duration > durationMin && d.duration < durationMax)
-			.reduce((total, d) => total + d.final_position, 0) / durationSum1;
-
-	avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
-
-	durationMin += 60;
-	durationMax += 60;
-
-	//videos between 2 and 3 minutes/////////////////////////////////////
-	durationSum1 = viewsFiltered
-		.filter((d) => d.duration > durationMin && d.duration < durationMax)
-		.reduce((total, d) => total + d.duration, 0);
-
-	avgPertCompletion =
-		viewsFiltered
-			.filter((d) => d.duration > durationMin && d.duration < durationMax)
-			.reduce((total, d) => total + d.final_position, 0) / durationSum1;
-
-	avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
-
-	durationMin += 60;
-	durationMax += 60;
-
-	//videos between 3 and 4 minutes/////////////////////////////////////
-	durationSum1 = viewsFiltered
-		.filter((d) => d.duration > durationMin && d.duration < durationMax)
-		.reduce((total, d) => total + d.duration, 0);
-
-	avgPertCompletion =
-		viewsFiltered
-			.filter((d) => d.duration > durationMin && d.duration < durationMax)
-			.reduce((total, d) => total + d.final_position, 0) / durationSum1;
-
-	avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
-
-	durationMin += 60;
-	durationMax += 60;
-
-	//videos between 4 and 5 minutes/////////////////////////////////////
-	durationSum1 = viewsFiltered.filter((d) => d.duration < durationMin).reduce((total, d) => total + d.duration, 0);
-
-	avgPertCompletion =
-		viewsFiltered.filter((d) => d.duration < durationMin).reduce((total, d) => total + d.final_position, 0) /
-		durationSum1;
-
-	avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
-
-	durationMin += 60;
-	durationMax += 60;
-
-	//videos between 5 and 6 minutes/////////////////////////////////////
-	durationSum1 = viewsFiltered.filter((d) => d.duration < durationMin).reduce((total, d) => total + d.duration, 0);
-
-	avgPertCompletion =
-		viewsFiltered.filter((d) => d.duration < durationMin).reduce((total, d) => total + d.final_position, 0) /
-		durationSum1;
-
-	avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
-
-	durationMin += 60;
-	durationMax += 60;
-
-	//videos between 6 and 7 minutes/////////////////////////////////////
-	durationSum1 = viewsFiltered.filter((d) => d.duration < durationMin).reduce((total, d) => total + d.duration, 0);
-
-	avgPertCompletion =
-		viewsFiltered.filter((d) => d.duration < durationMin).reduce((total, d) => total + d.final_position, 0) /
-		durationSum1;
-
-	avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
-
-	durationMin += 60;
-	durationMax += 60;
-
-	//videos between 8 and 9 minutes/////////////////////////////////////
-	durationSum1 = viewsFiltered.filter((d) => d.duration < durationMin).reduce((total, d) => total + d.duration, 0);
-
-	avgPertCompletion =
-		viewsFiltered.filter((d) => d.duration < durationMin).reduce((total, d) => total + d.final_position, 0) /
-		durationSum1;
-
-	avgFinalPositionArray.push(avgPertCompletion.toFixed(2));
-
-	// const finalPositionSum2 = viewsFiltered
-	//     .filter (d => d.duration < 60)
-	//     .map(d => += d.final_position)
-	// const durationSum = viewsFiltered.reduce(function(total, d) {
-	//     return total + d.duration;
-	// }, 0);
-
-	// const durationSum2 = viewsFiltered.reduce((total, d) => total + d.duration, 0);
-
-	//console.log(durationSum1);
-	// console.log(durationSum);
+	
 
 	//console.log(avgPertCompletion);
 	console.log('avgFinalPositionArray: ' + avgFinalPositionArray);
@@ -178,7 +83,7 @@ function ready(videoViews) {
 	// debugger;
 
 	// Margin Convention.
-	const margin = { top: 20, right: 20, bottom: 100, left: 100 };
+	const margin = { top: 30, right: 20, bottom: 75, left: 75 };
 	const graphWidth = 600 - margin.left - margin.right;
 	const graphHeight = 600 - margin.top - margin.bottom;
 
@@ -214,6 +119,12 @@ function ready(videoViews) {
 
 	const yAxisGroup = graph.append("g");
 
+	const nested = d3.nest()
+		.key(d => d.final_position)
+		//.key(d => d.duration)
+		.entries(viewsFiltered);
+	console.log( nested);
+
 	// Scales.
 	const x = d3.scaleBand()
 		.domain(d3.range(0, avgFinalPositionArray.length))
@@ -227,23 +138,30 @@ function ready(videoViews) {
 		.range([graphHeight, 0 ]);
 	console.log(d3.max(avgFinalPositionArray));
 
+	const transition = d3.transition().duration(500);
+
 	//join data to recs
     const rects = graph.selectAll("rect")
     	.data(avgFinalPositionArray);
 
 	rects.style('fill', 'lightgreen')
-		.attr('width', x.bandwidth())
-		.attr('height', (d) => y(d))
 		.attr('x', (d, i) => x(i))
-		.attr('y', (d) => graphHeight - y(d));
+		.attr('y', (d) => graphHeight - y(d))
+		.transition(transition)
+			.attr('width', x.bandwidth())
+			.attr('height', (d) => y(d));
 
 	rects.enter()
 		.append('rect')
 		.style('fill', 'lightgreen')
 		.attr('width', x.bandwidth())
-		.attr('height', d => graphHeight - y(d))
+		.attr("y", graphHeight)
 		.attr('x', (d, i) => x(i))
-		.attr('y', (d) => y(d));
+		
+		.transition(transition)
+			.attr('y', (d) => y(d))
+			.attr('height', d => graphHeight - y(d));
+		
 
 	//create and call the axes// axisBottom refers to ticks being on bottom of line
     const xAxis = d3.axisBottom(x)
@@ -254,6 +172,32 @@ function ready(videoViews) {
 
     xAxisGroup.call(xAxis);
     yAxisGroup.call(yAxis);
+
+	// Add X axis label:
+	graph.append("text")
+		.attr("text-anchor", "end")
+		.attr("x", graphWidth)
+		.attr("y", graphHeight + margin.top + 20)
+		.text("Video Duration")
+		.attr("font-family", "arial");
+
+	// Y axis label:
+	graph.append("text")
+		.attr("text-anchor", "end")
+		.attr("transform", "rotate(-90)")
+		.attr("y", -margin.left+20)
+		.attr("x", -margin.top)
+		.attr("font-family", "arial")
+		.text("Avg Final Position Percentage");
+		
+
+	graph.append("text")
+        .attr("x", (graphWidth / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Final Position Avg by Video Duration (" + viewsFiltered.length + " views)" );
 
 	//     .append("g")
 	//     .attr("transform", `translate(${margin.left}, ${margin.top})`);
@@ -302,6 +246,7 @@ const parseVersion = (string) => (string == null ? undefined : string.replace(/\
 function type(d) {
 	return {
 		title: d.title,
+		ccms_id: d.ccms_id,
 		final_position: +d.final_position,
 		duration: +d.duration,
 		eversion: +parseVersion(d.eversion),
