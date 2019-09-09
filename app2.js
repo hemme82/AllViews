@@ -3,32 +3,24 @@
 function filterData(data) {
 	return data.filter((d) => {
 		return (
-			//d.title
-			d.ccms_id.startsWith("FIN.") 
-			 //d.eversion >= 1800
+			//d.duration >=720 && d.duration <= 800
+			d.title
+			//d.ccms_id.startsWith("S.")
+			 //d.eversion <= 1800,
 			//d.oneToTwoMin
 			//d.eversion// >= 1900
-			// d.title == "Campus Learning"
+			//d.title == "Record Health Office Visit Using Health Office Calendar Tool"
 			// d.title != "Campus Learning"
 		);
 	});
 }
 
-function prepareBarChartData(data) {
-	//     const rolledUp = d3.rolledUp(
-	//         data,
-	//         reducer,
-	//         key
-	// if(data.lessThanOneMin) {
-	//     console.log(data.title);
-	// }
-}
+
 
 //Main Function
-
 function ready(videoViews) {
 	const viewsFiltered = filterData(videoViews);
-	const barChartData = prepareBarChartData(viewsFiltered);
+	
 	console.log(viewsFiltered);
 
 	const avgFinalPosition = d3.mean(viewsFiltered, function(d) {
@@ -41,6 +33,8 @@ function ready(videoViews) {
 	console.log('Average Final Position: ' + avgVidFinalPosition);
 	console.log(avgFinalPosition / avgDuration);
 
+	
+
 
 	const getNum = (val) => {
 		if (isNaN(val)) {
@@ -50,12 +44,14 @@ function ready(videoViews) {
 	}
 
 	var avgFinalPositionArray = [];
+	
 
 	let durationMin = 0;
 	let durationMax = 60;
 
-	//Videos under 1 minute/////////////////////////////////////
-	while(durationMax < 660) {
+	
+	while(durationMax < 680) {
+		
 		const durationSum1 = viewsFiltered
 			.filter((d) => d.duration > durationMin && d.duration < durationMax)
 			.reduce((total, d) => total + d.duration, 0);
@@ -63,18 +59,16 @@ function ready(videoViews) {
 		const avgFinalPositionByDuration = viewsFiltered
 			.filter((d) => d.duration > durationMin && d.duration < durationMax)
 			.reduce((total, d) => total + d.final_position, 0) / durationSum1;
-
+	
 		durationMin += 60;
 		durationMax +=60;
-
+		
 		const NaNCoversion = getNum(avgFinalPositionByDuration.toFixed(2));
 			console.log("n " + NaNCoversion)
 			avgFinalPositionArray.push(NaNCoversion);
 
 		console.log(avgFinalPositionByDuration)
 	}
-	
-
 	
 
 	//console.log(avgPertCompletion);
@@ -119,11 +113,7 @@ function ready(videoViews) {
 
 	const yAxisGroup = graph.append("g");
 
-	const nested = d3.nest()
-		.key(d => d.final_position)
-		//.key(d => d.duration)
-		.entries(viewsFiltered);
-	console.log( nested);
+	
 
 	// Scales.
 	const x = d3.scaleBand()
@@ -178,7 +168,7 @@ function ready(videoViews) {
 		.attr("text-anchor", "end")
 		.attr("x", graphWidth)
 		.attr("y", graphHeight + margin.top + 20)
-		.text("Video Duration")
+		.text("Video Length")
 		.attr("font-family", "arial");
 
 	// Y axis label:
@@ -189,6 +179,10 @@ function ready(videoViews) {
 		.attr("x", -margin.top)
 		.attr("font-family", "arial")
 		.text("Avg Final Position Percentage");
+	
+	const numberWithCommas = (x) => {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 		
 
 	graph.append("text")
@@ -197,7 +191,29 @@ function ready(videoViews) {
         .attr("text-anchor", "middle")  
         .style("font-size", "16px") 
         .style("text-decoration", "underline")  
-        .text("Final Position Avg by Video Duration (" + viewsFiltered.length + " views)" );
+        .text("Avg Final Position by Video Length (" + numberWithCommas(viewsFiltered.length) + " views)" );
+
+	const nested = d3.nest()
+		.key(d => d.final_position)
+		.sortKeys(d3.ascending)
+		//.key(d => d.duration)
+		.entries(viewsFiltered);
+	console.log(nested);
+
+	// const tip = d3.tip()
+	// .attr("class", "tip card")
+	// .html(d => {
+	// 	let content = `<div> ${avgFinalPositionArray}`
+	// 	return content;
+	// });
+
+	// graph.call(tip);
+
+	// graph.selectAll("rect")
+	// 	.on("mouseover", (d,i,n) => {
+	// 		tip.show(d, n[i]);
+	// 	})
+}
 
 	//     .append("g")
 	//     .attr("transform", `translate(${margin.left}, ${margin.top})`);
@@ -238,7 +254,7 @@ function ready(videoViews) {
 	//     })
 	// .attr("x", function(d, i) { return xScale(completionPerentageByDuration[i]); })
 	const durationNames = [ '1min', '2min', '3min', '4min', '5min', '6min', '7min', '8min' ];
-}
+
 
 const parseVersion = (string) => (string == null ? undefined : string.replace(/\D/g, ''));
 
