@@ -5,7 +5,7 @@ function filterData(data) {
 		return (
 			//d.duration >=720 && d.duration <= 800
 			d.title
-			//d.ccms_id.startsWith("S.")
+			//d.ccms_id.startsWith("SYO.")
 			 //d.eversion <= 1800,
 			//d.oneToTwoMin
 			//d.eversion// >= 1900
@@ -50,7 +50,7 @@ function ready(videoViews) {
 	let durationMax = 60;
 
 	
-	while(durationMax < 680) {
+	while(durationMax < 600) {
 		
 		const durationSum1 = viewsFiltered
 			.filter((d) => d.duration > durationMin && d.duration < durationMax)
@@ -64,8 +64,10 @@ function ready(videoViews) {
 		durationMax +=60;
 		
 		const NaNCoversion = getNum(avgFinalPositionByDuration.toFixed(2));
-			console.log("n " + NaNCoversion)
-			avgFinalPositionArray.push(NaNCoversion);
+			
+		console.log("n " + NaNCoversion);
+			
+		avgFinalPositionArray.push(NaNCoversion);
 
 		console.log(avgFinalPositionByDuration)
 	}
@@ -125,7 +127,7 @@ function ready(videoViews) {
 
 	const y = d3.scaleLinear()
 		.domain([ 0, d3.max(avgFinalPositionArray) ])
-		.range([graphHeight, 0 ]);
+		.range([graphHeight, 0]);
 	console.log(d3.max(avgFinalPositionArray));
 
 	const transition = d3.transition().duration(500);
